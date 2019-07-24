@@ -2,7 +2,7 @@
 
 import nixops.util
 import nixops.resources
-import nixops.datadog_utils
+import nixops_datadog.datadog_utils
 import json
 
 
@@ -11,7 +11,7 @@ class DatadogScreenboardDefinition(nixops.resources.ResourceDefinition):
 
     @classmethod
     def get_type(cls):
-        return "datadog-screenboard"
+        return "datadog_screenboard"
 
     @classmethod
     def get_resource_type(cls):
@@ -37,13 +37,13 @@ class DatadogScreenboardState(nixops.resources.ResourceState):
 
     @classmethod
     def get_type(cls):
-        return "datadog-screenboard"
+        return "datadog_screenboard"
 
     def __init__(self, depl, name, id):
         nixops.resources.ResourceState.__init__(self, depl, name, id)
         self._dd_api = None
         self._key_options = None
-        self._screen_url = nixops.datadog_utils.get_base_url()+"screen/"
+        self._screen_url = nixops_datadog.datadog_utils.get_base_url()+"screen/"
 
     def show_type(self):
         s = super(DatadogScreenboardState, self).show_type()
@@ -64,7 +64,7 @@ class DatadogScreenboardState(nixops.resources.ResourceState):
 
     def connect(self, app_key, api_key):
         if self._dd_api: return
-        self._dd_api, self._key_options = nixops.datadog_utils.initializeDatadog(app_key=app_key, api_key=api_key)
+        self._dd_api, self._key_options = nixops_datadog.datadog_utils.initializeDatadog(app_key=app_key, api_key=api_key)
 
     def create_screenboard(self, defn, widgets, template_variables, read_only):
         response = self._dd_api.Screenboard.create(
@@ -85,7 +85,7 @@ class DatadogScreenboardState(nixops.resources.ResourceState):
     def create(self, defn, check, allow_reboot, allow_recreate):
         screenboard_id = None
         self.connect(app_key=defn.config['appKey'], api_key=defn.config['apiKey'])
-        template_variables = nixops.datadog_utils.get_template_variables(defn=defn)
+        template_variables = nixops_datadog.datadog_utils.get_template_variables(defn=defn)
         read_only = True if defn.config['readOnly']=="true" else False
         widgets = []
         for widget in defn.config['widgets']:

@@ -2,7 +2,7 @@
 
 import nixops.util
 import nixops.resources
-import nixops.datadog_utils
+import nixops_datadog.datadog_utils
 import json
 import ast
 
@@ -12,7 +12,7 @@ class DatadogMonitorDefinition(nixops.resources.ResourceDefinition):
 
     @classmethod
     def get_type(cls):
-        return "datadog-monitor"
+        return "datadog_monitor"
 
     @classmethod
     def get_resource_type(cls):
@@ -37,13 +37,13 @@ class DatadogMonitorState(nixops.resources.ResourceState):
 
     @classmethod
     def get_type(cls):
-        return "datadog-monitor"
+        return "datadog_monitor"
 
     def __init__(self, depl, name, id):
         nixops.resources.ResourceState.__init__(self, depl, name, id)
         self._dd_api = None
         self._key_options = None
-        self._monitor_url = nixops.datadog_utils.get_base_url()+"monitors#"
+        self._monitor_url = nixops_datadog.datadog_utils.get_base_url()+"monitors#"
 
     def _exists(self):
         return self.state != self.MISSING
@@ -67,7 +67,7 @@ class DatadogMonitorState(nixops.resources.ResourceState):
 
     def connect(self, app_key, api_key):
         if self._dd_api: return
-        self._dd_api, self._key_options = nixops.datadog_utils.initializeDatadog(app_key=app_key, api_key=api_key)
+        self._dd_api, self._key_options = nixops_datadog.datadog_utils.initializeDatadog(app_key=app_key, api_key=api_key)
 
     def create_monitor(self, defn, options):
         response = self._dd_api.Monitor.create(

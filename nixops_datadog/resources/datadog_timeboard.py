@@ -2,7 +2,7 @@
 
 import nixops.util
 import nixops.resources
-import nixops.datadog_utils
+import nixops_datadog.datadog_utils
 import json
 
 
@@ -11,7 +11,7 @@ class DatadogTimeboardDefinition(nixops.resources.ResourceDefinition):
 
     @classmethod
     def get_type(cls):
-        return "datadog-timeboard"
+        return "datadog_timeboard"
 
     @classmethod
     def get_resource_type(cls):
@@ -36,13 +36,13 @@ class DatadogTimeboardState(nixops.resources.ResourceState):
 
     @classmethod
     def get_type(cls):
-        return "datadog-timeboard"
+        return "datadog_timeboard"
 
     def __init__(self, depl, name, id):
         nixops.resources.ResourceState.__init__(self, depl, name, id)
         self._dd_api = None
         self._key_options = None
-        self._dash_url = nixops.datadog_utils.get_base_url()+"dash/"
+        self._dash_url = nixops_datadog.datadog_utils.get_base_url()+"dash/"
 
     def show_type(self):
         s = super(DatadogTimeboardState, self).show_type()
@@ -63,7 +63,7 @@ class DatadogTimeboardState(nixops.resources.ResourceState):
 
     def connect(self, app_key, api_key):
         if self._dd_api: return
-        self._dd_api, self._key_options = nixops.datadog_utils.initializeDatadog(app_key=app_key, api_key=api_key)
+        self._dd_api, self._key_options = nixops_datadog.datadog_utils.initializeDatadog(app_key=app_key, api_key=api_key)
 
     def create_timeboard(self, defn, graphs, template_variables, read_only):
         response = self._dd_api.Timeboard.create(
@@ -85,7 +85,7 @@ class DatadogTimeboardState(nixops.resources.ResourceState):
         timeboard_id = None
         url = None
         self.connect(app_key=defn.config['appKey'], api_key=defn.config['apiKey'])
-        template_variables = nixops.datadog_utils.get_template_variables(defn=defn)
+        template_variables = nixops_datadog.datadog_utils.get_template_variables(defn=defn)
         read_only = True if defn.config['readOnly']=="true" else False
         graphs = []
         for g in defn.config['graphs']:
