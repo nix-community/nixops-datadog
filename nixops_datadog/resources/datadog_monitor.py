@@ -12,7 +12,7 @@ class DatadogMonitorDefinition(nixops.resources.ResourceDefinition):
 
     @classmethod
     def get_type(cls):
-        return "datadog_monitor"
+        return "datadog-monitor"
 
     @classmethod
     def get_resource_type(cls):
@@ -37,7 +37,7 @@ class DatadogMonitorState(nixops.resources.ResourceState):
 
     @classmethod
     def get_type(cls):
-        return "datadog_monitor"
+        return "datadog-monitor"
 
     def __init__(self, depl, name, id):
         nixops.resources.ResourceState.__init__(self, depl, name, id)

@@ -11,7 +11,7 @@ class DatadogScreenboardDefinition(nixops.resources.ResourceDefinition):
 
     @classmethod
     def get_type(cls):
-        return "datadog_screenboard"
+        return "datadog-screenboard"
 
     @classmethod
     def get_resource_type(cls):
@@ -37,7 +37,7 @@ class DatadogScreenboardState(nixops.resources.ResourceState):
 
     @classmethod
     def get_type(cls):
-        return "datadog_screenboard"
+        return "datadog-screenboard"
 
     def __init__(self, depl, name, id):
         nixops.resources.ResourceState.__init__(self, depl, name, id)

@@ -1,5 +1,5 @@
 {
-  config_exporters = { ... }: {};
+  config_exporters = { ... }: [];
   options = [];
   resources =
     { evalResources, zipAttrs, resourcesByType, ...}:

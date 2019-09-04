@@ -11,7 +11,7 @@ class DatadogTimeboardDefinition(nixops.resources.ResourceDefinition):
 
     @classmethod
     def get_type(cls):
-        return "datadog_timeboard"
+        return "datadog-timeboard"
 
     @classmethod
     def get_resource_type(cls):
@@ -36,7 +36,7 @@ class DatadogTimeboardState(nixops.resources.ResourceState):
 
     @classmethod
     def get_type(cls):
-        return "datadog_timeboard"
+        return "datadog-timeboard"
 
     def __init__(self, depl, name, id):
         nixops.resources.ResourceState.__init__(self, depl, name, id)
